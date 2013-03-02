@@ -1,52 +1,63 @@
-ZendSkeletonApplication
+SydZfc - Zend/Db
 =======================
 
-Introduction
+How to proceed
 ------------
-This is a simple, skeleton application using the ZF2 MVC layer and module
-systems. This application is meant to be used as a starting place for those
-looking to get their feet wet with ZF2.
+Setup the DB Schema if you want to actually test each example.  Then follow each step through each controller below. 
 
-
-Installation
+Deployment Scripts
 ------------
+```sql
+CREATE SCHEMA `SydZfComponents` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+CREATE  TABLE `SydZfComponents`.`animal` (
+  `animalId` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(64) NULL ,
+  `description` TEXT NULL ,
+  `viewCount` INT NULL ,
+  `username` VARCHAR(32) NULL ,
+  PRIMARY KEY (`animalId`) )
+ENGINE = InnoDB;
 
-Using Composer (recommended)
+INSERT INTO `animal` (`animalId`, `name`, `description`, `viewCount`, `username`)
+    VALUES  (1, 'Horse', 'Four legs and a tail', 0, 'user1');
+INSERT INTO `animal` (`animalId`, `name`, `description`, `viewCount`, `username`)
+    VALUES  (2, 'Cow', 'Black, white, spots', 0, 'user2');
+INSERT INTO `animal` (`animalId`, `name`, `description`, `viewCount`, `username`)
+    VALUES  (3, 'Dog', 'Likes to bark', 0, 'user3');
+INSERT INTO `animal` (`animalId`, `name`, `description`, `viewCount`, `username`)
+    VALUES  (4, 'Sheep', 'White fluff with black legs', 0, 'user4');
+INSERT INTO `animal` (`animalId`, `name`, `description`, `viewCount`, `username`)
+    VALUES  (5, 'Horse', 'Tall and runs fast', 0, 'user5');
+
+CREATE  TABLE `SydZfComponents`.`user` (
+  `username` VARCHAR(32) NOT NULL ,
+  `firstName` VARCHAR(32) NULL ,
+  PRIMARY KEY (`username`) );
+
+INSERT INTO `user` (`username`, `firstName`)
+    VALUES  ('user1', 'Fred');
+INSERT INTO `user` (`username`, `firstName`)
+    VALUES  ('user2', 'George');
+INSERT INTO `user` (`username`, `firstName`)
+    VALUES  ('user3', 'Mitch');
+INSERT INTO `user` (`username`, `firstName`)
+    VALUES  ('user4', 'Paul');
+INSERT INTO `user` (`username`, `firstName`)
+    VALUES  ('user5', 'Phil');
+```
+
+Steps
 ----------------------------
-The recommended way to get a working copy of this project is to clone the repository
-and use `composer` to install dependencies using the `create-project` command:
 
-    curl -s https://getcomposer.org/installer | php --
-    php composer.phar create-project --repository-url="http://packages.zendframework.com" zendframework/skeleton-application path/to/install
+**Application/Controller/ServiceManagerController.php**
+The simplest way to get data out a table. Use the service manager and just fetchAll.
+As simple as this method is, it is pretty restricted.
 
-Alternately, clone the repository and manually invoke `composer` using the shipped
-`composer.phar`:
+**Application/Controller/AdapterController.php**
+Setup the DB Adapter first.  Two methods, use the ServiceLocator or if you really want, do it manually.
 
-    cd my/project/dir
-    git clone git://github.com/zendframework/ZendSkeletonApplication.git
-    cd ZendSkeletonApplication
-    php composer.phar self-update
-    php composer.phar install
+**Applicatoin/Controller/SqlSelectStatementController.php**
+Using \Zend\Db\Sql\Sql you can easily select data from the DB regardless of SQL specifics.
 
-(The `self-update` directive is to ensure you have an up-to-date `composer.phar`
-available.)
-
-Another alternative for downloading the project is to grab it via `curl`, and
-then pass it to `tar`:
-
-    cd my/project/dir
-    curl -#L https://github.com/zendframework/ZendSkeletonApplication/tarball/master | tar xz --strip-components=1
-
-You would then invoke `composer` to install dependencies per the previous
-example.
-
-Using Git submodules
---------------------
-Alternatively, you can install using native git submodules:
-
-    git clone git://github.com/zendframework/ZendSkeletonApplication.git --recursive
-
-Virtual Host
-------------
-Afterwards, set up a virtual host to point to the public/ directory of the
-project and you should be ready to go!
+**Applicatoin/Controller/SqlCommandStatementController.php**
+Using \Zend\Db\Sql\Sql you can easily manipulate data using Update/Insert/Delete.

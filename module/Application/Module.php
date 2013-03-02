@@ -12,6 +12,12 @@ namespace Application;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
+use Application\Model\Animal;
+use Application\Model\AnimalTable;
+
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+
 class Module
 {
     public function onBootstrap(MvcEvent $e)
@@ -34,6 +40,25 @@ class Module
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
+            ),
+        );
+    }
+    
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'Application\Model\AnimalTable' =>  function($sm) {
+                    $tableGateway = $sm->get('AnimalTableGateway');
+                    $table = new AnimalTable($tableGateway);
+                    return $table;
+                },
+                'AnimalTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Animal());
+                    return new TableGateway('animal', $dbAdapter, null, $resultSetPrototype);
+                },
             ),
         );
     }
