@@ -42,7 +42,7 @@ class TutorialController extends AbstractActionController
         var_dump($goodMagician);
         
         $evilMagician = $this->getServiceLocator()->get('evil_magician');
-        var_dump($goodMagician);
+        var_dump($evilMagician);
         
         return array();
     }
