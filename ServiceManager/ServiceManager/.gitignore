@@ -1,0 +1,17 @@
+.idea
+.settings
+.buildpath
+.project
+composer.lock
+composer.phar
+cache/*
+vendor/*
+webroot/*
+!empty
+*.json
+*.md
+*.po
+*.mo
+*.js
+*.png
+*.ico
