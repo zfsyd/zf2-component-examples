@@ -1,4 +1,6 @@
 <?php
+use \ServiceManagerExamples\TutorialModels\MagicPractitionerInterface;
+use \ServiceManagerExamples\TutorialModels\Magician;
 return array(
     'service_manager' => array(        
         
@@ -21,6 +23,7 @@ return array(
         // the class. 
         'invokables' => array(
             'magic_strategy' => 'ServiceManagerExamples\TutorialModels\MagicStrategyEvil',
+            'magician' => 'ServiceManagerExamples\TutorialModels\Magician',
         ),    
 
         
@@ -31,9 +34,9 @@ return array(
         // statement an example has been outlined below with a working example provided
         // in the getServiceCongig() method defined in the module.php file
         
-        // 'services' => array(
-        //     'unique_key' => $someVar,            
-        // )
+//         'services' => array(
+//             'unique_key' => $someVar,            
+//         )
         
         
         /* Factories */
@@ -46,7 +49,7 @@ return array(
         'factories' => array(
             'good_magician' => function ($serviceManager) {
                 // Instantiate a Magician object
-                $magician = new \ServiceManagerExamples\TutorialModels\Magician();
+                $magician = new Magician();
                 
                 // Instantiate an appropriate MagicStrategy object in this case MagicStrategyGood                
                 $magicStrategy = new \ServiceManagerExamples\TutorialModels\MagicStrategyGood();
@@ -65,7 +68,7 @@ return array(
             // let's add another factory, this time to create an evil Magician....
             'evil_magician' => function ($serviceManager) {
                 // Instantiate a Magician object
-                $magician = new \ServiceManagerExamples\TutorialModels\Magician();
+                $magician = new Magician();
                 
                 // Now just for illustrative purposes and to get you thinking....
                 
@@ -114,12 +117,46 @@ return array(
         // Continuing with our Magic Practitioner examples a user might want to use a 3rd party
         // Wizard or Witch class which implements MagicPractitionerInterface instead of the 
         // Magician class we specified above....
-
         
-        /* 
-         * @TODO Add initializers and abstract_factories 
-         */        
         
+        /* Initializers */
+        
+        // Initializers are commonly used when you want to handle dependency injection.
+        // The initializer will be used when you use the ServiceManager get() method.
+        // Example usage:
+        // Defining a callback which you can use conditional statements within.
+        // When you use the ServiceManager get() method the object instance will be object 
+        // instance to see if it implements a particular interface. 
+        // If it does we can ensure the ServiceManager injects any relevant dependencies. 
+        // The example is commented out to avoid affecting the other examples in this
+        // tutorial.
+        // Essentially this initializer will mean any object which implements the
+        // MagicPractitionerInterface will have the MagicStrategy set to be the
+        // MagicStrategy we specified under the 'magic_strategy' key under 'invokables'
+        // When you are ready to experiment with the example below simply comment it
+        // back in.
+//         'initializers' => array(
+//             function ($instance, $sm) {
+//                 if ($instance instanceof MagicPractitionerInterface) {
+//                     $instance->setMagicStrategy($sm->get('magic_strategy'));                    
+//                 }
+//             }
+//         ),
+        
+        
+        /* Abstract Factories */
+        
+        // Abstract Factories are used as a fallback solution.
+        // While you are unlikely to need to use one you can do so very easily.
+        // if a service does not exist in the ServiceManager, it will then pass it to 
+        // any abstract factories attached to it until one of them is able to return 
+        // an object.
+        //
+        // Rather than providing an example of an abstract factory in this tutorial
+        // here are some excellent links you can use to see some examples:
+        //  
+        // http://akrabat.com/zend-framework-2/zendservicemanager-configuration-keys/
+        // http://samsonasik.wordpress.com/?s=abstract+factory
         
     ),    
     

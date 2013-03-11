@@ -35,14 +35,22 @@ class TutorialController extends AbstractActionController
     {
         // Due to the :controller and :action parameters set in the default route
         // (see module.config.php)
-        // you can request this action by browsing to /tutorial/tutorial/demo
+        // you can request this action by browsing to /tutorial/tutorial/demo                
         
-        // Demoing the ServiceManger 'factory' entry we set up 
+        // Demoing the ServiceManger 'factories' entry we set up 
         $goodMagician = $this->getServiceLocator()->get('good_magician');
         var_dump($goodMagician);
         
         $evilMagician = $this->getServiceLocator()->get('evil_magician');
         var_dump($evilMagician);
+        
+        // Demoing the ServiceManger 'initializer' entry we set up
+        // by default there will be no magic strategy set, you will notice that
+        // all objectes which implement the MagicPractitionerInterface will be
+        // affected by the initializer code once it is commented in (see the
+        // module.config.php file Initializers section).
+        $magician = $this->getServiceLocator()->get('magician');
+        var_dump($magician);        
         
         return array();
     }
