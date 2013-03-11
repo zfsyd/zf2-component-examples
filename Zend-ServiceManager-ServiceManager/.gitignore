@@ -1,0 +1,9 @@
+.idea
+.settings
+.buildpath
+.project
+composer.lock
+composer.phar
+cache/*
+webroot/*
+!empty
