@@ -18,15 +18,15 @@ class SqlSelectStatementController extends AbstractActionController
      */
     public function selectAction()
     {
-        $select = $this->getSqlSelect();
+        $sql = $this->getSqlObject();
     
         // Select a table
+        $select = $sql->select();
         $select->from('animal');
-        $statement = $this->getDbAdapter()->prepareStatementForSqlObject($select);
-        $results = $statement->execute();
-    
+        $statement = $sql->prepareStatementForSqlObject($select);
+        
         return new ViewModel(array(
-            'animals' => $results
+            'animals' => $statement->execute()
         ));
     }
     
@@ -37,13 +37,14 @@ class SqlSelectStatementController extends AbstractActionController
      */
     public function whereAction()
     {
-        $select = $this->getSqlSelect();
+        $sql = $this->getSqlObject();
         
         // Select a table
+        $select = $sql->select();
         $select->from('animal');
         // Add a where clause if you need one
         $select->where(array('name' => 'horse'));
-        $statement = $this->getDbAdapter()->prepareStatementForSqlObject($select);
+        $statement = $sql->prepareStatementForSqlObject($select);
         
         return new ViewModel(array(
             'animals' => $statement->execute()
@@ -57,14 +58,16 @@ class SqlSelectStatementController extends AbstractActionController
      */
     public function joinAction()
     {
-        $select = $this->getSqlSelect();
+        $sql = $this->getSqlObject();
         
         // Select a table
+        $select = $sql->select();
         $select->from('animal');
         $select->where(array('name' => 'horse'));
         // Join the user table
-        $select->join('user', 'name.username = user.username');
-        $statement = $this->getDbAdapter()->prepareStatementForSqlObject($select);
+        $select->join('user', 'animal.username = user.username');
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
         
         return new ViewModel(array(
             'animals' => $statement->execute()
@@ -79,18 +82,19 @@ class SqlSelectStatementController extends AbstractActionController
      */
     public function joinLeftAction()
     {
-        $select = $this->getSqlSelect();
+        $sql = $this->getSqlObject();
     
         // Select a table
+        $select = $sql->select();
         $select->from('animal');
         // Add a where clause if you need one
         $select->where(array('name' => 'horse'));
         $select->join('user',
-            'name.username = user.username',
+            'animal.username = user.username',
             array('*'),
             \Zend\Db\Sql\Select::JOIN_LEFT
         );
-        $statement = $this->getDbAdapter()->prepareStatementForSqlObject($select);
+        $statement = $sql->prepareStatementForSqlObject($select);
         $results = $statement->execute();
     
         return new ViewModel(array(
@@ -103,11 +107,10 @@ class SqlSelectStatementController extends AbstractActionController
      * 
      * @return Zend\Db\Adapter\Adapter
      */
-    public function getSqlSelect()
+    public function getSqlObject()
     {
         // Create new SQL object
-        $sql = new \Zend\Db\Sql\Sql($this->getDbAdapter());
-        return $sql->select();
+        return new \Zend\Db\Sql\Sql($this->getDbAdapter());
     }
     
     /**

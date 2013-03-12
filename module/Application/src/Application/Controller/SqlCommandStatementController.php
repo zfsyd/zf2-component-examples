@@ -21,11 +21,16 @@ class SqlCommandStatementController extends AbstractActionController
         
         $insert = $sql->insert('animal');
         $insert->columns(array('name', 'description', 'viewCount', 'username'));
-        $insert->values(array('from', 'Jumps', 0, 'user6'));
+        $insert->values(array(
+            'name' => 'fox',
+            'description' => 'Jumps',
+            'viewCount' => 0,
+            'username' => 'user6')
+        );
+        $statement = $sql->prepareStatementForSqlObject($insert);
         
-        $statement = $this->getDbAdapter()->prepareStatementForSqlObject($insert);
         return new ViewModel(array(
-            'animals' => $statement->execute()
+            'result' => $statement->execute()
         ));
     }
     
@@ -39,12 +44,12 @@ class SqlCommandStatementController extends AbstractActionController
         $sql = new \Zend\Db\Sql\Sql($this->getDbAdapter());
         
         $update = $sql->update('animal');
-        $update->set(array('viewCount' => 7));
+        $update->set(array('viewCount' => '7'));
         $update->where('animalId = 3');
         
-        $statement = $this->getDbAdapter()->prepareStatementForSqlObject($update);
+        $statement = $sql->prepareStatementForSqlObject($update);
         return new ViewModel(array(
-            'animals' => $statement->execute()
+            'result' => $statement->execute()
         ));
     }
     
@@ -59,11 +64,11 @@ class SqlCommandStatementController extends AbstractActionController
         
         $delete = $sql->delete('');
         $delete->from('animal');
-        $delete->where(array('name' => 'horse'));
+        $delete->where(array('name' => 'fox'));
         
-        $statement = $this->getDbAdapter()->prepareStatementForSqlObject($delete);
+        $statement = $sql->prepareStatementForSqlObject($delete);
         return new ViewModel(array(
-            'animals' =>  $statement->execute()
+            'result' =>  $statement->execute()
         ));
     }
     

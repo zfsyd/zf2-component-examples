@@ -1,0 +1,5 @@
+<h1>Where</h1>
+<?php foreach ($animals as $animal) : ?>
+Name: <?=$this->escapeHtml($animal['name']);?><br />
+Desc: <?=$this->escapeHtml($animal['description']);?><br /><br />
+<?php endforeach; ?>

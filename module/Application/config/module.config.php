@@ -21,62 +21,130 @@ return array(
                 ),
             ),
             'serviceManager' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/service-manager',
+                    'route' => '/service-manager[/:action]',
                     'defaults' => array(
                         'controller' => 'Application\Controller\ServiceManager',
                         'action' => 'index',
                     ),
                 ),
-            ),
-            'adapterManual' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route' => '/adapter/manual',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Adapter',
-                        'action' => 'manual',
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'wildcard' => array(
+                        'type' => 'Wildcard'
                     ),
                 ),
             ),
-            'adapterSelect' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+            'coolstuff' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/adapter/select',
+                    'route' => '/cool-stuff[/:action]',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Adapter',
-                        'action' => 'select',
-                    ),
-                ),
-            ),
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
-            'application' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    'route'    => '/application',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
+                        'controller' => 'Application\Controller\CoolStuff',
+                        'action' => 'index',
                     ),
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
+                    'wildcard' => array(
+                        'type' => 'Wildcard'
+                    ),
+                ),
+            ),
+            'adapter' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/adapter[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Adapter',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'wildcard' => array(
+                        'type' => 'Wildcard'
+                    ),
+                ),
+            ),
+            'platformobject' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/platform-object[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\PlatformObject',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'wildcard' => array(
+                        'type' => 'Wildcard'
+                    ),
+                ),
+            ),
+            'rowgateway' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/row-gateway[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\RowGateway',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'wildcard' => array(
+                        'type' => 'Wildcard'
+                    ),
+                ),
+            ),
+            'sqlcommandstatement' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/sql-command-statement[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\SqlCommandStatement',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'wildcard' => array(
+                        'type' => 'Wildcard'
+                    ),
+                ),
+            ),
+            'sqlselectstatement' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/sql-select-statement[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\SqlSelectStatement',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'wildcard' => array(
+                        'type' => 'Wildcard'
+                    ),
+                ),
+            ),
+            'tablegateway' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/table-gateway[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\TableGateway',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'wildcard' => array(
+                        'type' => 'Wildcard'
                     ),
                 ),
             ),
@@ -101,7 +169,13 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Adapter' => 'Application\Controller\AdapterController',
-            'Application\Controller\ServiceManager' => 'Application\Controller\ServiceManagerController'
+            'Application\Controller\ServiceManager' => 'Application\Controller\ServiceManagerController',
+            'Application\Controller\SqlSelectStatement' => 'Application\Controller\SqlSelectStatementController',
+            'Application\Controller\SqlCommandStatement' => 'Application\Controller\SqlCommandStatementController',
+            'Application\Controller\PlatformObject' => 'Application\Controller\PlatformObjectController',
+            'Application\Controller\RowGateway' => 'Application\Controller\RowGatewayController',
+            'Application\Controller\TableGateway' => 'Application\Controller\TableGatewayController',
+            'Application\Controller\CoolStuff' => 'Application\Controller\CoolStuffController',
         ),
     ),
     'view_manager' => array(
