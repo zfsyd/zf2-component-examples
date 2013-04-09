@@ -1,0 +1,34 @@
+<div class="hero-unit">
+    <h1>Simple Form Example</h1>
+    <?php if (isset($this->address)): ?>
+        <?php echo $this->address; ?>
+    <?php endif; ?>
+</div>
+
+<div class="row">
+    <!-- Using form helper to prepare the form -->
+    <?php $form->prepare(); ?>
+
+    <!-- Opening the form tags -->
+    <?php echo $this->form()->openTag($form); ?>
+
+    <!-- These elements were defined in the fieldset class -->
+    <?php $address = $form->get('Address'); ?>
+    <?php echo $this->formRow($address->get('line1')); ?>
+    <?php echo $this->formRow($address->get('line2')); ?>
+    <?php echo $this->formRow($address->get('line3')); ?>
+    <?php echo $this->formRow($address->get('line4')); ?>
+    <?php echo $this->formRow($address->get('city')); ?>
+    <?php echo $this->formRow($address->get('postCode')); ?>
+    <?php echo $this->formRow($address->get('country')); ?>
+    <!-- /These elements were defined in the fieldset class -->
+
+    <!-- These elements were defined in the form class -->
+    <?php echo $this->formHidden($form->get('csrf')); ?>
+    <?php echo $this->formInput($form->get('submit')); ?>
+    <!-- /These elements were defined in the form class -->
+
+    <!-- Closing the form tags -->
+    <?php echo $this->form()->closeTag($form); ?>
+
+</div>
